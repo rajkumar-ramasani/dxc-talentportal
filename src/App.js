@@ -13,7 +13,7 @@ function App() {
     getBenchResources();
   }, []);
   //let serviceEndopoint = "localhost/sample/api/"
-  let serviceEndopoint = "http://ec2-18-183-187-191.ap-northeast-1.compute.amazonaws.com/api/index.php"
+  let serviceEndopoint = "https://ec2-18-183-187-191.ap-northeast-1.compute.amazonaws.com/api/index.php"
   function getDemands() {
     axios.get(serviceEndopoint+'/demands/testuser1').then(function (response) {
       //console.log("DEMANDS DATA"+JSON.stringify(response.data,0,2));
