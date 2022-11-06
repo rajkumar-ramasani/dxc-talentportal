@@ -149,14 +149,14 @@ width: 100%;
 
 /* Main column */
 .main {
-flex: 27% 1;
+flex: 23% 1;
 background-color: white;
 padding: 20px;
 border: 7px solid #5f249f;
 }
 .name{
   font-size: x-large;
-  padding-left:10px;
+  padding-left:20px !important;
 }
 /* Fake image, just for this example */
 .fakeimg {
