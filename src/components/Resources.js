@@ -8,7 +8,7 @@ export default function Resources(data) {
     return (
         <div>
             <h1>List Users</h1>
-            <table>
+            <table className="table-main">
                 <thead>
                     <tr>
                         <th>#</th>

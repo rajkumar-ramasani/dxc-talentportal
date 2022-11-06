@@ -3,15 +3,18 @@ import Tableheader from './Tableheader';
 import Tablecontents from './Tablecontent';
 
 const TableDisplay = ({ }) => {
-
+    const onLinkClick = (e) => {
+        e.preventDefault();
+      window.history.back();
+    };
     return (
-
-        <table>
+       <div> <a className='back' href='#' onClick={onLinkClick}> Back To Dashboard </a>
+        <table className="table-main">
             <Tableheader />
             <Tablecontents />
 
         </table>
-
+        </div>
     )
 }
 

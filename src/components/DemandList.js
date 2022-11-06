@@ -1,15 +1,20 @@
 import axios from "axios"
-import { useEffect, useState } from "react";
+import { useEffect, useState,history } from "react";
 import { useContext } from "react";
 import { UserContext } from '../App'
-
+import '../App.css';
 export default function DemandList(data) {
     const contextval = useContext(UserContext);
     var tabledata = contextval.contextdata.tabledata;
+    const onLinkClick = (e) => {
+        e.preventDefault();
+      window.history.back();
+    };
     return (
-        <div>
+                <div className="table-main">
+                    <a className="backLink" href='#' onClick={onLinkClick}> Back To Dashboard </a>
             <h1>List Users</h1>
-            <table>
+            <table className="table-main">
                 <thead>
                     <tr>
                         <th>ID </th>

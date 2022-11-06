@@ -17,9 +17,10 @@ const Tablecontents = ({ }) => {
                         <td>{user.emp_email}</td>
                         <td>{user.job_level}</td>
                         <td>{user.emp_pskill}</td>
-                        <td>{user.emp_sskil}</td>
-                        <td>{fieldscheck ? user.demand_id : ''}</td>
-                        <td>{fieldscheck ? user.percentage : ''}</td>
+                        <td>{user.demand_skill}</td>
+                        <td>{user.mtach_skills}</td>
+                        {fieldscheck ? <td>{user.demand_id}</td> : ''}
+                        {fieldscheck ? <td>{user.percentage.toFixed(0)} </td> : ''}
 
                     </tr>
                 )

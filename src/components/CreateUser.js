@@ -25,7 +25,7 @@ export default function ListUser() {
         <div>
             <h1>Create user</h1>
             <form onSubmit={handleSubmit}>
-                <table cellSpacing="10">
+                <table className="table-main" cellSpacing="10">
                     <tbody>
                         <tr>
                             <th>

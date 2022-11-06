@@ -11,10 +11,11 @@ const Tableheader = ({ }) => {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Job Level</th>
-                <th>Primary skill</th>
-                <th>Secondary Skill</th>
-                <th>{fieldscheck ? "Demand ID" : ''}</th>
-                <th>{fieldscheck ? "Percentage match" : ''}</th>
+                <th>Resource Skill</th>
+                <th>Demand Skill</th>
+                <th>Matched Skill</th>
+                {fieldscheck ? <th>Position ID </th> : ''}
+                {fieldscheck ? <th>Percentage match </th> : ''}
             </tr>
         </thead>
     )
