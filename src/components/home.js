@@ -1,11 +1,45 @@
 import axios from "axios"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
-
+import { UserContext } from "../App"
+import Img from '../image/skill.jpg';
+import People from '../image/people.jpg';
+import Demand from '../image/demand.jpg';
+import Skill from '../image/skill1.jpg';
+import Partial from '../image/skill3.jpg';
+import Upload from '../image/upload.jpg';
 export default function Home(props) {
+    const contextval = useContext(UserContext);
     const demands = props.demands;
+    const [resourcesdata, setresourcesdata] = useState([])
     const resources = props.resources;
+    console.log("111 ", demands);
+    let resval = {};
+    let resoursearr = [];
+    const [bestmatch, setbestmatch] = useState([])
+    const [closematch, setclosematch] = useState([])
+    useEffect(() => {
+        let index = 0;
+        resources.forEach(resKey => {
 
+            resval[index] = {
+                "job_level": resKey.job_level,
+                "emp_name": resKey.emp_name,
+                "emp_email": resKey.email,
+                "emp_id": resKey.emp_id,
+                "emp_pskill": resKey.primary_skill,
+                "emp_sskil": resKey.secondary_skill,
+            }
+            index++;
+        })
+
+        Object.entries(resval).forEach(([key, value]) => {
+            resoursearr.push(value)
+
+        })
+        setresourcesdata(resoursearr)
+
+    }, [resources]);
     function getMatch(a, b) {
         var matches = [];
 
@@ -19,12 +53,30 @@ export default function Home(props) {
     function calcPercentage(match, total) {
         return (match / total) * 100
     }
+    const assignfun = (dataarr) => {
+        let arr1 = []
+        let arr2 = [];
+        Object.entries(dataarr).forEach(([key, value]) => {
+            // console.log("assign ", value)
+            if (value.percentage > 50) {
+                arr1.push(value)
 
+            } else {
+                arr2.push(value)
+
+            }
+        })
+        setclosematch(arr2)
+        setbestmatch(arr1)
+
+    }
     let resultData = {}
     useEffect(() => {
+
         if (demands.length > 0 && resources.length > 0) {
             demands.forEach(demKey => {
                 resources.forEach(resKey => {
+                 //   console.log("111 ", resKey)
                     let demSkill = (demKey.primary_skill).split(",");
                     let resSkill = (resKey.primary_skill).split(",");
                     let match_skills = getMatch(demSkill, resSkill);
@@ -35,7 +87,14 @@ export default function Home(props) {
                             "capability": demKey.capability,
                             "mtach_skills": match_skills,
                             "percentage": calcPercentage(match_skills.length, demSkill.length),
-                            "job_Level": "yes"
+                            "job_LevelMatch": "yes",
+                            "demand_id": demKey.demand_id,
+                            "emp_name": resKey.emp_name,
+                            "emp_email": resKey.email,
+                            "emp_id": resKey.emp_id,
+                            "emp_pskill": resKey.primary_skill,
+                            "emp_sskil": resKey.secondary_skill,
+
                         }
                     } else {
                         resultData[demKey.demand_id] = {
@@ -44,7 +103,14 @@ export default function Home(props) {
                             "capability": demKey.capability,
                             "mtach_skills": match_skills,
                             "percentage": calcPercentage(match_skills.length, demSkill.length),
-                            "job_Level": "No"
+                            "job_LevelMatch": "No",
+                            "demand_id": demKey.demand_id,
+                            "emp_name": resKey.emp_name,
+                            "emp_email": resKey.email,
+                            "emp_id": resKey.emp_id,
+                            "emp_pskill": resKey.primary_skill,
+                            "emp_sskil": resKey.secondary_skill,
+
                         }
 
                     }
@@ -52,51 +118,73 @@ export default function Home(props) {
                 })
 
             });
-            console.log("===" + JSON.stringify(resultData, 0, 2))
+            var matchresourse = resultData
+            console.log("===" + matchresourse)
 
+            assignfun(matchresourse)
         }
 
 
     }, [demands, resources]);
 
+    const viewmatch = (tablecont) => {
+        contextval.setcontextdata({
+            ...contextval.ontextdata,
+            tabledata: tablecont,
+            fieldscheck: true,
+        })
 
+    }
+    const viewalldemand = (tablecont) => {
+        contextval.setcontextdata({
+            ...contextval.ontextdata,
+            tabledata: tablecont,
+            fieldscheck: false,
+        })
+
+    }
     return (
         <div>
             <div className="cards">
 
                 <article className="card">
                     <div className="text">
+                    <img height="30%" width="30%" src= {People} alt="pic" />
                         <h3>Available Resources</h3>
-                        <Link to="resourceList">List Available Resources is 5</Link>
+                        <Link to="displayTable" onClick={() => { viewalldemand(resourcesdata) }}>List of Available resources is {resourcesdata.length} </Link>
 
 
                     </div>
                 </article>
                 <article className="card">
                     <div className="text">
+                    <img height="30%" width="30%" src= {Demand} alt="pic" />
                         <h3>New Demands</h3>
-                        <Link to="demandList">List of demands is 5</Link>
+
+                        <Link to="demandList" onClick={() => { viewalldemand(demands) }}>List of demands is {demands.length} </Link>
 
 
                     </div>
                 </article>
                 <article className="card">
                     <div className="text">
+                    <img height="30%" width="30%" src= {Skill} alt="pic" />
                         <h3>Best Skill Match-(80% above)</h3>
-                        <a href='#'>5 Results</a>
-
+                        <Link to="displayTable" onClick={() => { viewmatch(bestmatch) }}>{bestmatch.length} Results</Link>
 
                     </div>
                 </article>
                 <article className="card">
                     <div className="text">
+                    <img height="30%" width="30%" src= {Partial} alt="pic" />
                         <h3>Near Skill Match-(60% above)</h3>
-                        <a href='#'>3 Results</a>
+                        <Link to="displayTable" onClick={() => { viewmatch(closematch) }}>{closematch.length}  Results</Link>
 
                     </div>
                 </article>
                 <article className="card">
                     <div className="text">
+                    <img height="30%" width="30%" src= {Upload} alt="pic" />
                         <h3>Upload Demand</h3>
 
 
