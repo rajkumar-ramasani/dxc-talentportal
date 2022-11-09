@@ -12,7 +12,7 @@ import Demand from './image/demand.jpg';
 import Capability from './image/capability1.jpg';
 import PartialCapability from './image/capability2.jpg';
 import Upload from './image/upload.jpg';
-const URL = "http://ec2-18-183-187-191.ap-northeast-1.compute.amazonaws.com/api/index.php/"
+const URL = "https://ec2-18-183-187-191.ap-northeast-1.compute.amazonaws.com/api/index.php/"
 
 
 
